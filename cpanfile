@@ -5,4 +5,5 @@ requires 'Catalyst::Plugin::ConfigLoader', '0.34';
 requires 'Config::General';
 requires 'Catalyst::Action::RenderView', '0.16';
 requires 'Catalyst::View::TT', '0.41'; 
+requires 'JSON::XS', '3.01';
 requires 'Catalyst::View::JSON', '0.33'; 
