@@ -43,7 +43,17 @@ __PACKAGE__->config(
 );
 
 # Start the application
+
+
+
 __PACKAGE__->setup();
+
+sub uri_for {
+    my $self = shift;
+    my $uri = $self->next::method(@_);
+    $uri =~ s/\.com:\d+/.com/;
+    return $uri;
+}
 
 =encoding utf8
 
