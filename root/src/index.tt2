@@ -1,1 +1,1 @@
-[% c.uri_for('/').replace('\.com:\d+', '.com') %]
+[% c.uri_for('/foo/bar').replace('\.com:\d+', '.com') %]
