@@ -6,4 +6,5 @@ requires 'Config::General';
 requires 'Catalyst::Action::RenderView', '0.16';
 requires 'Catalyst::View::TT', '0.41'; 
 requires 'JSON::XS', '3.01';
+requires 'JSON';
 requires 'Catalyst::View::JSON', '0.33'; 
