@@ -8,3 +8,4 @@ requires 'Catalyst::View::TT', '0.41';
 requires 'JSON::XS', '3.01';
 requires 'JSON';
 requires 'Catalyst::View::JSON', '0.33'; 
+requires 'Catalyst::Plugin::ExternalURI', '0.02';
