@@ -9,3 +9,9 @@ requires 'JSON::XS', '3.01';
 requires 'JSON';
 requires 'Catalyst::View::JSON', '0.33'; 
 requires 'Catalyst::Plugin::ExternalURI', '0.02';
+
+requires 'WebService::Instagram';
+requires 'Facebook::Graph';
+requires 'Facebook::Graph::AccessToken';
+requires 'Net::Google::DataAPI::Auth::OAuth2';
+requires 'Data::Dumper';
