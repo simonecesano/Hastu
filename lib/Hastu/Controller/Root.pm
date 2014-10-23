@@ -2,31 +2,65 @@ package Hastu::Controller::Root;
 use Moose;
 use namespace::autoclean;
 
+use WebService::Instagram;
+use Facebook::Graph;
+use Facebook::Graph::AccessToken;
+use Net::Google::DataAPI::Auth::OAuth2;
+use Data::Dumper;
+
 BEGIN { extends 'Catalyst::Controller' }
 
-#
-# Sets the actions in this controller to be registered with no prefix
-# so they function identically to actions created in MyApp.pm
-#
 __PACKAGE__->config(namespace => '');
 
-=encoding utf-8
+has google => ( is => 'rw', lazy => 1, builder => '_google' );
+has redirect => ( is => 'rw', lazy => 1, builder => '_redirect' );
 
-=head1 NAME
 
-Hastu::Controller::Root - Root Controller for Hastu
+sub _redirect {
+    my ( $self, $c ) = @_;
+    my $redirect_uri = $ENV{'REDIRECT_URI'} || 'http://hastu.herokuapp.com/oauth2callback';
+    return $redirect_uri;
+}
 
-=head1 DESCRIPTION
+# Google API token generation only. Request /google
+sub _google {
+    my ( $self, $c ) = @_;
+    return Net::Google::DataAPI::Auth::OAuth2->new({
+        client_id => $ENV{'GOOGLE_CLIENT_ID'} || '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
+        client_secret => $ENV{'GOOGLE_CLIENT_SECRET'} || 'ioZUgU_A4yg6xb2F6CfQcTb6 ',
+        scope => ['https://www.google.com/calendar/feeds/'],
+        redirect_uri => $self->redirect,
+    });
+}
 
-[enter your description here]
+sub google_generatetokenid :Path('/google') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->res->redirect($self->google->authorize_url());
+    $c->detach();
+}
 
-=head1 METHODS
+sub google_inst :Path('/google/inst') :Args() {
+    my ( $self, $c ) = @_;
+    my $code = $c->req->param('code');
+    if ( defined $code ) {
+        $c->forward('google_gettoken', [ $code ] );
+        $c->detach();
+    }
+    $c->res->body("Code not found");
+}
 
-=head2 index
+sub google_gettoken :Path('/google/gettoken') :Args(1) {
+    my ( $self, $c, $code ) = @_;
+    my $access_token = $self->google->get_access_token($code);
+    $c->res->body("access_token: ".$access_token->{NOA_access_token}."<br>refresh_token: ".$access_token->{NOA_refresh_token});
+    $c->detach();
+}
 
-The root page (/)
+sub end : ActionClass('RenderView') {}
 
-=cut
+__PACKAGE__->meta->make_immutable;
+
+1;
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
@@ -36,11 +70,6 @@ sub index :Path :Args(0) {
     $c->forward('View::HTML');
 }
 
-=head2 default
-
-Standard 404 error page
-
-=cut
 
 sub default :Path {
     my ( $self, $c ) = @_;
@@ -48,24 +77,8 @@ sub default :Path {
     $c->response->status(404);
 }
 
-=head2 end
-
-Attempt to render a view, if needed.
-
-=cut
 
 sub end : ActionClass('RenderView') {}
-
-=head1 AUTHOR
-
-Cesano, Simone
-
-=head1 LICENSE
-
-This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
-
-=cut
 
 __PACKAGE__->meta->make_immutable;
 
