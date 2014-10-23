@@ -18,7 +18,7 @@ has redirect => ( is => 'rw', lazy => 1, builder => '_redirect' );
 
 sub _redirect {
     my ( $self, $c ) = @_;
-    my $redirect_uri = $ENV{'REDIRECT_URI'} || 'http://hastu.herokuapp.com/oauth2callback';
+    my $redirect_uri = $ENV{'REDIRECT_URI'} || 'http://hastu.herokuapp.com/google/inst';
     return $redirect_uri;
 }
 
