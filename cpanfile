@@ -11,9 +11,8 @@ requires 'Catalyst::View::JSON', '0.33';
 requires 'Catalyst::Plugin::ExternalURI', '0.02';
 
 requires 'Catalyst::Authentication::Credential::OAuth';
-requires 'Catalyst::Session::Store::FastMmap';
-requires 'Catalyst::Session';
-requires 'Catalyst::Session::State::Cookie';
+requires 'Catalyst::Plugin::Session::Store::FastMmap';
+requires 'Catalyst::Plugin::Session::State::Cookie';
 
 requires 'WebService::Instagram';
 requires 'Facebook::Graph';
