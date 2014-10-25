@@ -149,11 +149,11 @@ sub _build_req {
     my $req;
     if ($uri->scheme eq 'file') { # this overrides the method 
        $req = HTTP::Request->new(GET => $uri->as_string);
-    }elsif (uc($method) eq 'GET') {
+    } elsif (uc($method) eq 'GET') {
        $req = HTTP::Request->new(GET => $uri->as_string, %$attribs);
-    }elsif (uc($method) eq 'POST') {
+    } elsif (uc($method) eq 'POST') {
        $req = POST $uri, [@$attribs];
-    }else{
+    } else {
        Catalyst::Exception->throw('URI Error in authenticate(): '.
 	"Invalid Method: $method - We can only handle methods GET or POST");
     }
