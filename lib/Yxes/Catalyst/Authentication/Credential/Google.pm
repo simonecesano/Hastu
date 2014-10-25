@@ -58,7 +58,7 @@ sub authenticate {
 
     Catalyst::Exception->throw( "Provider is not defined." )
         unless defined $auth_info->{provider} || defined $self->providers->{ $auth_info->{provider} };
-
+    
     my $provider = $self->providers->{ $auth_info->{provider} };
 
     $c->log->debug( "authenticate() called from " . $c->request->uri ) if $self->verbose;
@@ -99,6 +99,7 @@ sub authenticate {
 	    my $res = $ua->request($req);
 	    
 	    if ($res->is_success()) {
+		$c->log->info($res->content());
 		my $token = from_json($res->content());
 		
 		# using the token data we can extract the user data
