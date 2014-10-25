@@ -10,7 +10,7 @@ requires 'JSON';
 requires 'Catalyst::View::JSON', '0.33'; 
 requires 'Catalyst::Plugin::ExternalURI', '0.02';
 
-requires 'Catalyst::Authentication::Plugin';
+requires 'Catalyst::Plugin::Authentication';
 requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'Catalyst::Authentication::Credential::OAuth';
 requires 'Catalyst::Plugin::Session::Store::FastMmap';
