@@ -35,6 +35,30 @@ sub default :Path {
 }
 
 
+sub oauth2 : Local {
+    my ($self, $c) = @_;
+    if( $c->authenticate( { provider => 'google.com' } ) ) {
+	$c->log->info('something worked');
+	#do something with $c->user
+    }
+}
+
+sub login :Path('/login') {
+    my ($self, $c) = @_;
+
+    return $c->res->redirect('/welcome', '302')
+		if ($c->authenticate({provider => 'google.com'}));
+
+     $c->log->debug('***Root:auto User not Authenticated');
+     $c->res->body('Authentication Error: '. $c->stash->{auth_error});
+}
+
+sub welcome :Path('/welcome') {
+    my ($self, $c) = @_;
+
+    $c->res->body('welcome: '.$c->user->email);
+}
+
 sub end : ActionClass('RenderView') {}
 
 __PACKAGE__->meta->make_immutable;
