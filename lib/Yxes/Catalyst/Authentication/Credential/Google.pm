@@ -133,7 +133,7 @@ sub authenticate {
     $auth_uri->query_form(
 			  response_type => 'code',
 			  client_id     => $provider->{client_id},
-			  redirect_uri  => $c->request->uri,
+			  redirect_uri  => 'http://hastu.herokuapp.com/google/inst',
 			  scope	      => $self->scope
 			 );
     
