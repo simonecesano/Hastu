@@ -5,6 +5,7 @@ use namespace::autoclean;
 use WebService::Instagram;
 use Net::Google::DataAPI::Auth::OAuth2;
 use Data::Dumper;
+use Data::Dump qw/dump/;
 
 BEGIN { extends 'Catalyst::Controller' }
 
