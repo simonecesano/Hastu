@@ -39,12 +39,12 @@ sub google_generatetokenid :Path('/google') :Args(0) {
 
 sub google_inst :Path('/google/inst') :Args() {
     my ( $self, $c ) = @_;
-    # my $code = $c->req->param('code');
-    # if ( defined $code ) {
-    #     $c->forward('google_gettoken', [ $code ] );
-    #     $c->detach();
-    # }
-    $c->res->body("everything is fine");
+    my $code = $c->req->param('code');
+    if ( defined $code ) {
+	$c->res->body("everything is fine with " . $code);
+    } else {
+	$c->res->body("everything is fine");
+    }
 }
 
 sub google_gettoken :Path('/google/gettoken') :Args(1) {
