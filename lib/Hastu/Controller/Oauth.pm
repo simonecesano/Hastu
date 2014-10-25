@@ -41,7 +41,8 @@ sub google_inst :Path('/google/inst') :Args() {
     my ( $self, $c ) = @_;
     my $code = $c->req->param('code');
     if ( defined $code ) {
-	$c->res->body("everything is fine with " . $code);
+	my $access_token = $self->google->get_access_token($code);
+	$c->res->body(join "\n", '<pre>', "everything is fine with " . $code, (dump $access_token), '</pre>');
     } else {
 	$c->res->body("everything is fine");
     }
