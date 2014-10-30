@@ -27,7 +27,7 @@ sub _google {
     return Net::Google::DataAPI::Auth::OAuth2->new({
         client_id     => $ENV{'GOOGLE_CLIENT_ID'} || '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
         client_secret => $ENV{'GOOGLE_CLIENT_SECRET'} || 'iVDphllBU8pE-5jYMVZkytOH',
-        scope => ['https://www.google.com/calendar/feeds/'],
+        scope => ['https://www.google.com/calendar/feeds/', 'https://www.googleapis.com/auth/userinfo.email'],
         redirect_uri => $self->redirect,
     });
 }
@@ -49,12 +49,12 @@ sub google_inst :Path('/google/inst') :Args() {
     }
 }
 
-sub google_gettoken :Path('/google/gettoken') :Args(1) {
-    my ( $self, $c, $code ) = @_;
-    my $access_token = $self->google->get_access_token($code);
-    $c->res->body("access_token: " . $access_token->{NOA_access_token} . "<br>refresh_token: ". $access_token->{NOA_refresh_token} );
-    $c->detach();
-}
+# sub google_gettoken :Path('/google/gettoken') :Args(1) {
+#     my ( $self, $c, $code ) = @_;
+#     my $access_token = $self->google->get_access_token($code);
+#     $c->res->body("access_token: " . $access_token->{NOA_access_token} . "<br>refresh_token: ". $access_token->{NOA_refresh_token} );
+#     $c->detach();
+# }
 
 sub end : ActionClass('RenderView') {}
 

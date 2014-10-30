@@ -23,7 +23,7 @@ has scope => (
 	      is => 'ro', 
 	      isa => 'Str', 
 	      required => 1,
-	      default => sub { 'https://www.googleapis.com/auth/userinfo.email '. 'https://www.googleapis.com/auth/userinfo.profile' }
+	      default => sub { 'https://www.googleapis.com/auth/userinfo.email'. 'https://www.googleapis.com/auth/userinfo.profile' }
 	     );
 
 has auth_uri => (
