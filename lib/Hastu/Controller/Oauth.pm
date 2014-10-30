@@ -27,7 +27,7 @@ sub _google {
     return Net::Google::DataAPI::Auth::OAuth2->new({
         client_id     => $ENV{'GOOGLE_CLIENT_ID'} || '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
         client_secret => $ENV{'GOOGLE_CLIENT_SECRET'} || 'iVDphllBU8pE-5jYMVZkytOH',
-        # scope => ['https://www.google.com/calendar/feeds/'],
+        scope => ['https://www.google.com/calendar/feeds/'],
         redirect_uri => $self->redirect,
     });
 }
