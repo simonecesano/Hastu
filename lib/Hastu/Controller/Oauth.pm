@@ -42,7 +42,7 @@ sub google_inst :Path('/google/inst') :Args() {
     my ( $self, $c ) = @_;
     my $code = $c->req->param('code');
     if ( defined $code ) {
-	my $access_token = $self->google->get_access_token($code);
+	# my $access_token = $self->google->get_access_token($code);
 	$c->res->redirect($c->uri_for('/welcome'));
     } else {
 	$c->res->body("everything is fine");

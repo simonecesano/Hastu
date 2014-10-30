@@ -12,6 +12,7 @@ use JSON 2.53 qw/from_json/;
 
 use namespace::autoclean;
 
+use Data::Dump qw/dump/;
 
 our $VERSION = '0.04';
 
@@ -110,6 +111,8 @@ sub authenticate {
 		if ($res->is_success()) {
 		    $user_data = from_json($res->content());
 		    $user_data->{token} = $token;
+
+		    $c->log->info(dump $user_data);
 		}
 	    } else {
 		my $error = from_json($res->content())->{error};
