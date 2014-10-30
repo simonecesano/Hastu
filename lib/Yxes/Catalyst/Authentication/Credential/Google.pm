@@ -75,10 +75,10 @@ sub authenticate {
     if (my $code = $c->req->param('code')) {  # we have a response from google through the browser
 	my $ua = LWP::UserAgent->new();
 	
-	$c->log->debug("######################### here ##############################");
+	$c->log->debug("######################### got code ##############################");
 	my $user_data; # a combination of token and user data
 	{
-	    $c->log->debug("######################### here ##############################");
+	    $c->log->debug("######################### inside block ##############################");
 	    
 	    # first we need to get at the token data
 	    my $req_uri = $c->request->uri->clone;
