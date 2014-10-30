@@ -51,11 +51,12 @@ sub login :Path('/login') {
     $c->log->debug('***Root:auto User not Authenticated');
     $c->res->body('Authentication Error: '. $c->stash->{auth_error});
 }
+use Data::Dump qw/dump/;
 
 sub welcome :Path('/welcome') {
     my ($self, $c) = @_;
 
-    $c->res->body('welcome: '. $c->user->email);
+    $c->res->body('welcome: '. dump $c->user);
 }
 
 sub end : ActionClass('RenderView') {}
