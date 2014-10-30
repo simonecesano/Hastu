@@ -135,7 +135,7 @@ sub authenticate {
 			  response_type => 'code',
 			  client_id     => $provider->{client_id},
 			  # this is where it really is
-			  redirect_uri  => 'http://hastu.herokuapp.com/google_inst',
+			  redirect_uri  => 'http://hastu.herokuapp.com/google/inst',
 			  scope	      => $self->scope
 			 );
     
