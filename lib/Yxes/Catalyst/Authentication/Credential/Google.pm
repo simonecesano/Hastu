@@ -105,6 +105,8 @@ sub authenticate {
 		
 		# using the token data we can extract the user data
 		my $req = $self->_build_req($c, $self->api_uri->clone);
+
+		$c->log->info(ref $req);
 	        $req->authorization(join ' ', ($token->{token_type}, $token->{access_token}));
 		
 		my $res = $ua->request($req);
@@ -162,8 +164,7 @@ sub _build_req {
        Catalyst::Exception->throw('URI Error in authenticate(): '.
 	"Invalid Method: $method - We can only handle methods GET or POST");
     }
-
-return $req; # you have to handle errors on your own
+    return $req; # you have to handle errors on your own
 }
 
 
