@@ -90,7 +90,7 @@ sub authenticate {
 			   # XXXXXXXXXXXXXXXXXXXXXXX
 			   # XXXXXXXXXXXXXXXXXXXXXXX
 			   # this is needed too
-			   redirect_uri => 'http://hastu.herokuapp.com/google/inst',
+			   redirect_uri => 'http://hastu.herokuapp.com/google/instu',
 			   client_id => $provider->{client_id},
 			   scope => '',
 			   client_secret => $provider->{client_secret},
