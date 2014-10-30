@@ -77,7 +77,7 @@ sub authenticate {
 	
 	my $user_data; # a combination of token and user data
 	{
-	    $c->log->info("######################### here ##############################");
+	    $c->log->debug("######################### here ##############################");
 	    
 	    # first we need to get at the token data
 	    my $req_uri = $c->request->uri->clone;
