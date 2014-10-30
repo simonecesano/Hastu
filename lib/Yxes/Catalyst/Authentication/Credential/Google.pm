@@ -75,6 +75,7 @@ sub authenticate {
     if (my $code = $c->req->param('code')) {  # we have a response from google through the browser
 	my $ua = LWP::UserAgent->new();
 	
+	$c->log->debug("######################### here ##############################");
 	my $user_data; # a combination of token and user data
 	{
 	    $c->log->debug("######################### here ##############################");
@@ -136,6 +137,7 @@ sub authenticate {
 	return;
     }
     
+    $c->log->debug("######################### bottom ##############################");
     my $auth_uri = $self->auth_uri->clone;
     $auth_uri->query_form(
 			  response_type => 'code',
