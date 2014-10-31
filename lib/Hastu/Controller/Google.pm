@@ -36,7 +36,7 @@ sub inst :Path('inst') {
     my ($self, $c) = @_;
 
     my $access_token  = $auth->get_access_token($c->req->params->{code});
-    $c->res->body(join "\n", '<pre>', (dump $access_token->get('/me')), '</pre>');
+    $c->res->body(join "\n", '<pre>', (dump $access_token), '</pre>');
     
 }
 
