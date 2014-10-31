@@ -22,3 +22,5 @@ requires 'Facebook::Graph::AccessToken';
 requires 'Net::Google::DataAPI::Auth::OAuth2';
 requires 'Data::Dumper';
 requires 'Data::Dump';
+
+requires 'Net::OAuth2::Profile::WebServer';
