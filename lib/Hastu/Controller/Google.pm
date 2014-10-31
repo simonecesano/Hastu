@@ -35,7 +35,7 @@ sub inst :Path('inst') {
     my ($self, $c) = @_;
 
     my $access_token  = $auth->get_access_token($c->req->params->{code});
-    $c->res->body($access_token);
+    $c->res->body(dump $access_token);
     
 }
 
