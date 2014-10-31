@@ -17,7 +17,7 @@ my $auth = Net::OAuth2::Profile::WebServer->new
      authorize_path    => '/o/oauth2/auth',
      access_token_path => '/o/oauth2/token',
      redirect_uri      => 'http://hastu.herokuapp.com/google/inst',
-     protected_resource_url => 'https://www.googleapis.com/plus/v1/people/'
+     protected_resource_url => 'https://www.googleapis.com/plus/v1/people'
     );
 
 
