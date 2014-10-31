@@ -13,11 +13,11 @@ my $auth = Net::OAuth2::Profile::WebServer->new
      client_id      => '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
      client_secret  => 'iVDphllBU8pE-5jYMVZkytOH',
      site           => 'https://accounts.google.com',
-     scope          => 'https://www.googleapis.com/plus/v1/people',
+     scope          => 'https://www.googleapis.com/auth/userinfo.profile',
      authorize_path    => '/o/oauth2/auth',
      access_token_path => '/o/oauth2/token',
      redirect_uri      => 'http://hastu.herokuapp.com/google/inst',
-     protected_resource_url => 'https://www.googleapis.com/plus/v1/people'
+     protected_resource_url => 'https://www.googleapis.com/plus/v1/people/'
     );
 
 
@@ -36,7 +36,7 @@ sub inst :Path('inst') {
     my ($self, $c) = @_;
 
     my $access_token  = $auth->get_access_token($c->req->params->{code});
-    $c->res->body(join "\n", '<pre>', (dump $access_token->get('/me')), '</pre>');
+    $c->res->body(join "\n", '<pre>', (dump $access_token->get('')), '</pre>');
     
 }
 
