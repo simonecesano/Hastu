@@ -46,7 +46,8 @@ sub oauth2 : Local {
 sub login :Path('/login') {
     my ($self, $c) = @_;
 
-    return $c->res->redirect('/welcome', '302') if ($c->authenticate({provider => 'google.com'}));
+    # $c->log->info($c->authenticate({ provider => 'google.com' }));
+    return $c->res->redirect('/welcome', '302') if ($c->authenticate({ provider => 'google.com' }));
 
     $c->log->debug('***Root:auto User not Authenticated');
     $c->res->body('Authentication Error: '. $c->stash->{auth_error});

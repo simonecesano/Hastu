@@ -38,16 +38,16 @@ sub google_generatetokenid :Path('/google') :Args(0) {
     $c->detach();
 }
 
-sub google_inst :Path('/google/inst') :Args() {
-    my ( $self, $c ) = @_;
-    my $code = $c->req->param('code');
-    if ( defined $code ) {
-	# my $access_token = $self->google->get_access_token($code);
-	$c->res->redirect($c->uri_for('/welcome'));
-    } else {
-	$c->res->body("everything is fine");
-    }
-}
+# sub google_inst :Path('/google/inst') :Args() {
+#     my ( $self, $c ) = @_;
+#     my $code = $c->req->param('code');
+#     if ( defined $code ) {
+# 	# my $access_token = $self->google->get_access_token($code);
+# 	$c->res->redirect($c->uri_for('/welcome'));
+#     } else {
+# 	$c->res->body("everything is fine");
+#     }
+# }
 
 # sub google_gettoken :Path('/google/gettoken') :Args(1) {
 #     my ( $self, $c, $code ) = @_;
