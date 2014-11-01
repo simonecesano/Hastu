@@ -34,7 +34,7 @@ sub inst :Path('inst') {
     # # $token = Net::OAuth2::AccessToken->session_thaw($c->session->{tokens}->{google}, profile => $c->model('Google'));
     # $token = $c->session->{tokens}->{google};
 
-    my $response = $c->model('Google')->request_autho($c->session->{tokens}->{google}, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
+    my $response = $c->model('Google')->request_auth($c->session->{tokens}->{google}, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
     $c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
 }
 
