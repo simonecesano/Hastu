@@ -60,6 +60,7 @@ sub authenticate {
     $c->log->info("auth_info:\n" . dump $auth_info);
     $c->log->info("store:\n" . dump $realm->store);
     $c->log->info("provider:\n" . dump $self->providers->{$auth_info->{provider}});
+    $c->log->info($c->session);
 
     # $c->log->info("api_uri:\n" . dump $self->api_uri);
     # $c->log->info("auth:\n" . dump $self->auth);
