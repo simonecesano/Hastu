@@ -25,7 +25,7 @@ sub mangle_arguments {
 
 sub request_auth {
     my $self = shift;
-    print STDERR "foo";
+    shift->log->info('foo');
     return $self->SUPER::request_auth(@_);
 }
 

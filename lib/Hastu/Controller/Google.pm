@@ -30,7 +30,7 @@ sub inst :Path('inst') {
     my $token = $c->model('Google')->get_access_token($c->req->params->{code});
     $c->log->info("session freeze:\n" . dump $token->session_freeze);
     $c->session->{tokens}->{google} = $token->session_freeze;
-
+    
     $token = Net::OAuth2::AccessToken->session_thaw($c->session->{tokens}->{google}, profile => $c->model('Google'));
 
     my $response = $c->model('Google')->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
