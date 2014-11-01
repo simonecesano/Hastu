@@ -22,7 +22,6 @@ my $auth = Net::OAuth2::Profile::WebServer->new
         https://www.googleapis.com/auth/plus.me
         https://www.googleapis.com/auth/userinfo.email
         https://www.googleapis.com/auth/userinfo.profile
-        https://www.googleapis.com/auth/calendar
        |, 
      authorize_path    => '/o/oauth2/auth',
      access_token_path => '/o/oauth2/token',
