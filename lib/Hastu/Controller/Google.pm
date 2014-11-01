@@ -17,7 +17,13 @@ my $auth = Net::OAuth2::Profile::WebServer->new
      client_id         => '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
      client_secret     => 'iVDphllBU8pE-5jYMVZkytOH',
      site              => 'https://accounts.google.com', 
-     scope             => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile', 
+     scope             => join " ", 
+     qw|https://www.googleapis.com/auth/plus.login 
+        https://www.googleapis.com/auth/plus.me
+        https://www.googleapis.com/auth/userinfo.email
+        https://www.googleapis.com/auth/userinfo.profile
+        https://www.googleapis.com/auth/calendar
+       |, 
      authorize_path    => '/o/oauth2/auth',
      access_token_path => '/o/oauth2/token',
      redirect_uri      => 'http://hastu.herokuapp.com/google/inst',
@@ -57,3 +63,12 @@ sub name :Path('name') {
 
 
 1;
+
+__DATA__
+
+
+https://www.googleapis.com/plus/v1/people/me
+
+SCOPES
+======
+
