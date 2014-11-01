@@ -66,6 +66,8 @@ sub authenticate {
     
     # $c->res->redirect("http://www.google.com");
     $c->res->redirect($self->auth->authorize);
+
+
     $c->detach;
 }
 
