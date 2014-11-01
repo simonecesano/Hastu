@@ -16,6 +16,7 @@ requires 'Catalyst::Authentication::Store::DBIx::Class';
 requires 'Catalyst::Authentication::Credential::OAuth';
 requires 'Catalyst::Plugin::Session::Store::FastMmap';
 requires 'Catalyst::Plugin::Session::State::Cookie';
+requires 'Catalyst::Model::Adaptor';
 
 requires 'WebService::Instagram';
 requires 'Facebook::Graph';
