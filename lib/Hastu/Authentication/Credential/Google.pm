@@ -40,7 +40,8 @@ sub BUILD {
       my $self = shift;
       my $args = shift;
 
-      $self->auth(Net::OAuth2::Profile::WebServer->new
+      $self->auth(
+		  Net::OAuth2::Profile::WebServer->new
 		  ( 
 		   client_id         => '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
 		   client_secret     => 'iVDphllBU8pE-5jYMVZkytOH',

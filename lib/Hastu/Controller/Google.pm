@@ -39,6 +39,8 @@ sub login :Path('login') {
 sub inst :Path('inst') {
     my ($self, $c) = @_;
 
+    $c->log->info(ref $c->model('Google'));
+
     my $token  = $auth->get_access_token($c->req->params->{code});
     $c->log->info("session freeze:\n" . dump $token->session_freeze);
     $c->session->{tokens}->{google} = $token->session_freeze;
