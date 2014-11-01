@@ -25,7 +25,7 @@ sub mangle_arguments {
 
 use Net::OAuth2::AccessToken;
 
-sub request_auth {
+sub request_autho {
     my $self = shift;
     my $token = shift;
     $token = Net::OAuth2::AccessToken->session_thaw($token, profile => $self);
