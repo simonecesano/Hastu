@@ -17,7 +17,7 @@ my $auth = Net::OAuth2::Profile::WebServer->new
      client_id         => '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
      client_secret     => 'iVDphllBU8pE-5jYMVZkytOH',
      site              => 'https://accounts.google.com', 
-     scope             => 'https://www.google.com/m8/feeds/',
+     scope             => 'https://www.googleapis.com/auth/plus.login', 
      authorize_path    => '/o/oauth2/auth',
      access_token_path => '/o/oauth2/token',
      redirect_uri      => 'http://hastu.herokuapp.com/google/inst',
@@ -42,7 +42,7 @@ sub inst :Path('inst') {
     if (1) {
 	my $access_token  = $auth->get_access_token($c->req->params->{code});
 	# $c->session->{token} = $access_token;
-	my $response      = $access_token->get('/me');
+	my $response      = $access_token->get('https://www.googleapis.com/oauth2/v2/userinfo');
 	$c->res->body(join "\n", '<pre>', (dump $response), '</pre>');
     }
 }
