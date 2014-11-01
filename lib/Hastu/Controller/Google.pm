@@ -40,9 +40,9 @@ sub inst :Path('inst') {
     my ($self, $c) = @_;
 
     if (1) {
-	my $access_token  = $auth->get_access_token($c->req->params->{code});
-	# $c->session->{token} = $access_token;
-	my $response      = $auth->request_auth($access_token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
+	my $token  = $auth->get_access_token($c->req->params->{code});
+	$c->log->info(ref $token);
+	my $response      = $auth->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
 	# $c->res->body(join "\n", '<pre>', (dump $access_token), '</pre>');
 	$c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
     }
