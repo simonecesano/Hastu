@@ -47,8 +47,8 @@ sub inst :Path('inst') {
     if (1) {
 	my $access_token  = $auth->get_access_token($c->req->params->{code});
 	# $c->session->{token} = $access_token;
-	# my $response = $auth->request_auth($access_token, GET => 'https://www.agoogleapis.com/oauth2/v2/userinfo');
-	my $response  = $auth->request_auth($access_token, GET => 'https://www.goaogleapis.com/userinfo/v2/me');
+	my $response = $auth->request_auth($access_token, GET => 'https://www.agoogleapis.com/oauth2/v2/userinfo');
+	# my $response  = $auth->request_auth($access_token, GET => 'https://www.goaogleapis.com/userinfo/v2/me');
 	# my $response  = $auth->request_auth($access_token, GET => 'https://www.googleapis.com/calendar/v3/calendars/gj8cgejndrttk5k6bjis2nu04c%40group.calendar.google.com/events');
 	$c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
     }
