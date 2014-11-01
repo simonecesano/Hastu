@@ -46,6 +46,10 @@ sub inst :Path('inst') {
     }
 }
 
+sub name :Path('name') {
+    my ($self, $c) = @_;
+    $c->res->body(join "\n", '<pre>', (dump $c->session-->{token}), '</pre>');
+}
 
 
 
