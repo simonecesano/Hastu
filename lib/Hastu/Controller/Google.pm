@@ -41,14 +41,16 @@ sub inst :Path('inst') {
 
     if (1) {
 	my $access_token  = $auth->get_access_token($c->req->params->{code});
-	$c->session->{token} = $access_token;
-	$c->res->body(join "\n", '<pre>', (dump $access_token), '</pre>');
+	# $c->session->{token} = $access_token;
+	my $response      = $access_token->get('/me');
+	$c->res->body(join "\n", '<pre>', (dump $response), '</pre>');
     }
 }
 
 sub name :Path('name') {
     my ($self, $c) = @_;
     $c->res->body(join "\n", '<pre>', (dump $c->session->{token}), '</pre>');
+    # $c->res->body(join "\n", '<pre>', (dump $c->session->{token}), '</pre>');
 }
 
 
