@@ -2,11 +2,8 @@ package Hastu::Controller::Root;
 use Moose;
 use namespace::autoclean;
 
-use WebService::Instagram;
-use Facebook::Graph;
-use Facebook::Graph::AccessToken;
-use Net::Google::DataAPI::Auth::OAuth2;
 use Data::Dumper;
+use Data::Dump qw/dump/;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -35,24 +32,14 @@ sub default :Path {
 }
 
 
-sub oauth2 : Local {
-    my ($self, $c) = @_;
-    if( $c->authenticate( { provider => 'google.com' } ) ) {
-	$c->log->info('something worked');
-	#do something with $c->user
-    }
-}
 
 sub login :Path('/login') {
     my ($self, $c) = @_;
 
-    # $c->log->info($c->authenticate({ provider => 'google.com' }));
-    return $c->res->redirect('/welcome', '302') if ($c->authenticate({ provider => 'google.com' }));
-
-    $c->log->debug('***Root:auto User not Authenticated');
-    $c->res->body('Authentication Error: '. $c->stash->{auth_error});
+    $c->authenticate({ provider => 'google.com' });
+    $c->log->info();
+    $c->res->body('hello');
 }
-use Data::Dump qw/dump/;
 
 sub welcome :Path('/welcome') {
     my ($self, $c) = @_;
@@ -65,3 +52,13 @@ sub end : ActionClass('RenderView') {}
 __PACKAGE__->meta->make_immutable;
 
 1;
+
+__DATA__
+
+sub oauth2 : Local {
+    my ($self, $c) = @_;
+    if( $c->authenticate( { provider => 'google.com' } ) ) {
+	$c->log->info('something worked');
+	#do something with $c->user
+    }
+}
