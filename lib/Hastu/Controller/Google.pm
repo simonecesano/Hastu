@@ -7,9 +7,9 @@ use Data::Dump qw/dump/;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
-#----------------------
-# this one works
-#----------------------
+#----------------------#
+# this one works       #
+#----------------------#
 
 my $auth = Net::OAuth2::Profile::WebServer->new
     ( 
