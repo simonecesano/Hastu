@@ -23,9 +23,14 @@ sub mangle_arguments {
     return %$args;
 }
 
+use Net::OAuth2::AccessToken;
+
 sub request_auth {
     my $self = shift;
-    shift->log->info('foo');
+    my $token = shift;
+    $token = Net::OAuth2::AccessToken->session_thaw($token, profile => $self);
+
+    # shift->log->info('foo');
     return $self->SUPER::request_auth(@_);
 }
 
