@@ -35,11 +35,11 @@ sub login :Path('login') {
 sub inst :Path('inst') {
     my ($self, $c) = @_;
 
-    if (0) {
+    if (1) {
 	my $access_token  = $auth->get_access_token($c->req->params->{code});
 	$c->res->body(join "\n", '<pre>', (dump $access_token), '</pre>');
     }
-    if (1) {
+    if (0) {
 	my $code = $c->req->params->{code};
 	$c->res->body($code);
     }
