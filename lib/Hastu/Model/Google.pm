@@ -6,7 +6,7 @@ use base 'Catalyst::Model::Adaptor';
 use Data::Dump qw/dump/;
 
 __PACKAGE__->config( 
-    class       => 'Net::OAuth2::Profile',
+    class       => 'Net::OAuth2::Profile::WebServer',
     constructor => 'new',
 );
 
