@@ -41,7 +41,7 @@ sub inst :Path('inst') {
 
     $c->log->info(ref $c->model('Google'));
 
-    my $token  = $auth->get_access_token($c->req->params->{code});
+    my $token = $c->model('Google')->get_access_token($c->req->params->{code});
     $c->log->info("session freeze:\n" . dump $token->session_freeze);
     $c->session->{tokens}->{google} = $token->session_freeze;
     my $response = $auth->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
