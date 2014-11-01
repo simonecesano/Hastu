@@ -42,8 +42,9 @@ sub inst :Path('inst') {
     if (1) {
 	my $access_token  = $auth->get_access_token($c->req->params->{code});
 	# $c->session->{token} = $access_token;
-	my $response      = $auth->request_auth($access_token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
-	$c->res->body(join "\n", '<pre>', (dump $response), '</pre>');
+	# my $response      = $auth->request_auth($access_token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
+	my $response      = $auth->request_auth($access_token, GET => 'https://www.googleapis.com/userinfo/v2/me');
+	$c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
     }
 }
 
