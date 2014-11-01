@@ -41,6 +41,7 @@ sub inst :Path('inst') {
     }
     if (1) {
 	my $code = $c->req->params->{code};
+	$c->res->body($code);
     }
 }
 
