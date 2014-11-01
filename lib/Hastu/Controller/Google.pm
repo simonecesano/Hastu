@@ -39,13 +39,11 @@ sub login :Path('login') {
 sub inst :Path('inst') {
     my ($self, $c) = @_;
 
-    if (1) {
-	my $token  = $auth->get_access_token($c->req->params->{code});
-	$c->log->info(ref $token);
-	my $response      = $auth->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
-	# $c->res->body(join "\n", '<pre>', (dump $access_token), '</pre>');
-	$c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
-    }
+    my $token  = $auth->get_access_token($c->req->params->{code});
+    $c->log->info("session freeze:\n" . dump $token->session_freeze);
+    
+    my $response      = $auth->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
+    $c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
 }
 
 sub name :Path('name') {

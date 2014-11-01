@@ -1,16 +1,15 @@
 package Hastu::Authentication::Credential::Google;
-#package Yxes::Catalyst::Authentication::Credential::Google;
 
 use 5.006;
 use Moose 2.0602;
 use MooseX::Types::Moose 0.27 qw/Bool HashRef/;
 
 use Catalyst::Exception;
-use URI 1.60;
-use LWP::UserAgent 6.02;
-use HTTP::Request::Common 6.00 qw/POST/;
+# use URI 1.60;
+# use LWP::UserAgent 6.02;
+# use HTTP::Request::Common 6.00 qw/POST/;
 use JSON 2.53 qw/from_json/;
-
+use Net::OAuth2::Profile::WebServer;
 use namespace::autoclean;
 
 use Data::Dump qw/dump/;
@@ -24,29 +23,12 @@ has providers => (is => 'ro', isa => HashRef, required => 1);
 has scope => (
 	      is => 'ro', 
 	      isa => 'Str', 
-	      required => 1,
-	      default => sub { 'https://www.googleapis.com/auth/userinfo.email '. 'https://www.googleapis.com/auth/userinfo.profile' }
+	      # required => 1,
 	     );
-has auth_uri => (
-		 is => 'ro', 
-		 isa => 'URI', 
-		 required => 1,
-		 default => sub { URI->new('https://accounts.google.com/o/oauth2/auth') }
-		);
-
-has token_uri => (
-		  is => 'ro', 
-		  isa => 'URI', 
-		  required => 1,
-		  default => sub { URI->new('https://accounts.google.com/o/oauth2/token') }
-		 );
-
-has api_uri => (
-		is => 'ro', 
-		isa => 'URI', 
-		required => 1,
-		default => sub { URI->new('https://www.googleapis.com/oauth2/v2/userinfo') }
-	       );
+has auth => (
+	     is => "rw",
+	     isa => 'Net::OAuth2::Profile::WebServer'
+);
 
 sub BUILDARGS {
     my ($self, $config, $c, $realm) = @_;
@@ -54,28 +36,36 @@ sub BUILDARGS {
     return $config;
 }
 
+sub BUILD {
+      my $self = shift;
+      my $args = shift;
+
+      $self->auth(Net::OAuth2::Profile::WebServer->new
+		  ( 
+		   client_id         => '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
+		   client_secret     => 'iVDphllBU8pE-5jYMVZkytOH',
+		   site              => 'https://accounts.google.com', 
+		   scope             => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile', 
+		   authorize_path    => '/o/oauth2/auth',
+		   access_token_path => '/o/oauth2/token',
+		   redirect_uri      => 'http://hastu.herokuapp.com/google/inst',
+		  )
+		 )
+  }
+
+
 sub authenticate {
     my ($self, $c, $realm, $auth_info) = @_;
 
-    $c->log->info(dump $auth_info);
-    $c->log->info(dump $realm);
+    $c->log->info("auth_info:\n" . dump $auth_info);
+    $c->log->info("realm:\n" . dump $realm);
+    $c->log->info("provider:\n" . dump $self->providers->{$auth_info->{provider}});
 
-    Catalyst::Exception->throw( "Provider is not defined." )
-        unless defined $auth_info->{provider} || defined $self->providers->{ $auth_info->{provider} };
+    # $c->log->info("api_uri:\n" . dump $self->api_uri);
+    # $c->log->info("auth:\n" . dump $self->auth);
     
-    my $provider = $self->providers->{ $auth_info->{provider} };
-    
-    $c->log->debug("######################### bottom ##############################");
-    my $auth_uri = $self->auth_uri->clone;
-    $auth_uri->query_form(
-			  response_type => 'code',
-			  client_id     => $provider->{client_id},
-			  # this is where it really is
-			  redirect_uri  => 'http://hastu.herokuapp.com/google/inst',
-			  scope	      => $self->scope
-			 );
-    
-    $c->res->redirect($auth_uri->as_string);
+    # $c->res->redirect("http://www.google.com");
+    $c->res->redirect($self->auth->authorize);
     $c->detach;
 }
 
