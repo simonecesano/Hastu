@@ -18,7 +18,7 @@ sub index :Path :Args(0) {
 }
 use JSON::XS qw/decode_json/;
 
-sub login :Path('/login/google') {
+sub login_google :Path('/login/google') {
     my ($self, $c) = @_;
     unless ($c->req->params->{code}) {
 	$c->authenticate({ provider => 'google.com' });
@@ -28,35 +28,22 @@ sub login :Path('/login/google') {
 	#------------------------------
 	# need to redirect somewhere
 	#------------------------------
-	$c->res->body('authenticated!');
+	$c->res->body('authenticated! "'. $c->user->name . '"');
     }
 }
 
-sub inst :Path('/google/inst') {
+sub login_fb :Path('/login/fb') {
     my ($self, $c) = @_;
-
-    $c->log->info(ref $c->model('Google'));
-
-    $c->authenticate({ provider => 'google.com' });
-
-    my $token = $c->model('Google')->get_access_token($c->req->params->{code});
-    $c->log->info("session freeze:\n" . dump $token->session_freeze);
-    # $c->log->info("token:\n" . dump $token);
-    $c->session->{tokens}->{google} = $token->session_freeze;
-    
-    $token = Net::OAuth2::AccessToken->session_thaw($c->session->{tokens}->{google}, profile => $c->model('Google'));
-    # $token = $c->session->{tokens}->{google};
-
-    my $response = $c->model('Google')->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
-    $c->res->body(join "\n", '<pre>', ($response->content), '</pre>');
+    unless ($c->req->params->{code}) {
+	$c->authenticate({ provider => 'facebook.com' });
+    } else {
+	$c->authenticate({ provider => 'facebook.com' });
+	#------------------------------
+	# need to redirect somewhere
+	#------------------------------
+	$c->res->body('authenticated! "'. $c->user->name . '"');
+    }
 }
-
-sub name :Path('name') {
-    my ($self, $c) = @_;
-    $c->res->body(join "\n", '<pre>', (dump $c->session->{token}), '</pre>');
-    # $c->res->body(join "\n", '<pre>', (dump $c->session->{token}), '</pre>');
-}
-
 
 
 1;
