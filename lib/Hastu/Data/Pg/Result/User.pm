@@ -40,14 +40,70 @@ __PACKAGE__->table("users");
 
 =cut
 
-__PACKAGE__->add_columns(
-  "id",
-  { data_type => "integer", is_nullable => 0 },
-  "username",
-  { data_type => "text", is_nullable => 1 },
-  "password",
-  { data_type => "text", is_nullable => 1 },
-);
+__PACKAGE__->add_columns
+    (
+     'id'
+     => {
+	 'is_auto_increment' => 0,
+	 'size' => '0',
+	 'is_nullable' => 0,
+	 'data_type' => 'varchar',
+	 'size' => '128',
+	 'name' => 'id',
+	 'is_foreign_key' => 0,
+	 'default_value' => undef
+	},
+     'username' 
+     => {
+	 'data_type' => 'varchar',
+	 'name' => 'username',
+	 'size' => '128',
+	 'is_auto_increment' => 0,
+	 'is_nullable' => 1,
+	 'default_value' => undef,
+	 'is_foreign_key' => 0
+	 },
+     'given_name' 
+     => {
+	 'is_nullable' => 1,
+	 'is_auto_increment' => 0,
+	 'size' => '128',
+	 'name' => 'given_name',
+	 'data_type' => 'varchar',
+	 'default_value' => undef,
+	 'is_foreign_key' => 0
+	 },
+     'family_name' 
+     => {
+	 'default_value' => undef,
+	 'is_foreign_key' => 0,
+	 'is_nullable' => 1,
+	 'size' => '128',
+	 'is_auto_increment' => 0,
+	 'name' => 'family_name',
+	 'data_type' => 'varchar'
+	 },
+     'email' 
+     => {
+	 'default_value' => undef,
+	 'is_foreign_key' => 0,
+	 'is_auto_increment' => 0,
+	 'size' => '128',
+	 'is_nullable' => 1,
+	 'data_type' => 'varchar',
+	 'name' => 'email'
+	 },
+     'password' 
+     => {
+	 'is_foreign_key' => 0,
+	 'default_value' => undef,
+	 'data_type' => 'varchar',
+	 'name' => 'password',
+	 'size' => '128',
+	 'is_auto_increment' => 0,
+	 'is_nullable' => 1
+	 },
+     );
 
 =head1 PRIMARY KEY
 

@@ -32,45 +32,66 @@ has auth => (
 
 sub BUILDARGS {
     my ($self, $config, $c, $realm) = @_;
-
     return $config;
 }
 
 sub BUILD {
-      my $self = shift;
-      my $args = shift;
+    my $self = shift;
+    my $args = shift;
+}
 
-      $self->auth(
-		  Net::OAuth2::Profile::WebServer->new
-		  ( 
-		   client_id         => '1042989076422-g03hljhmda7jne9jot3j526taf77i345.apps.googleusercontent.com',
-		   client_secret     => 'iVDphllBU8pE-5jYMVZkytOH',
-		   site              => 'https://accounts.google.com', 
-		   scope             => 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile', 
-		   authorize_path    => '/o/oauth2/auth',
-		   access_token_path => '/o/oauth2/token',
-		   redirect_uri      => 'http://hastu.herokuapp.com/google/inst',
-		  )
-		 )
-  }
-
+use JSON::XS qw/decode_json/;
 
 sub authenticate {
     my ($self, $c, $realm, $auth_info) = @_;
+    unless ($c->req->params->{code}) {
+	$self->auth(Net::OAuth2::Profile::WebServer->new(%{$self->providers->{$auth_info->{provider}}})) unless $self->auth;
+	$c->res->redirect($self->auth->authorize);
+	$c->detach;
+    } else {
+	# get the token and put it into the session
+	my $token = $self->auth->get_access_token($c->req->params->{code});
+	$c->session->{tokens}->{google} = $token->session_freeze;
+
+	# request user data
+	my $response = $self->auth->request_auth($token, GET => 'https://www.googleapis.com/oauth2/v2/userinfo');
+	my $user = decode_json($response->content);
+
+	# create or update the user
+	$c->log->info("auth_info:\n" . dump $auth_info);
+	$c->log->info("realm:\n" . dump $realm->store->config->{user_model});
+	
+	my $u = $c->model($realm->store->config->{user_model})->find_or_create({ id => $user->{id}});
+	for (qw/email family_name given_name/) { $u->$_($user->{$_}) }; $u->username($user->{name}); $u->update;
+	return 1;
+    }
+}
+
+1;
+
+__DATA__
+
+    
+    local $\ = "\n";
+    # print STDERR '#' x 80;
+    # print STDERR "build args:\n" . dump $args;
+    # print STDERR '#' x 80;
+
+	
+	$c->log->info('+' x 80);
+	$c->log->info('second round');
+	$c->log->info("from: " . $c->req->referer);
+	$c->log->info("to:   " . $c->req->uri);
+	$c->log->info("store:" . (ref $realm->store));
+	$c->log->info("session:\n" . (dump $c->session));
+	$c->log->info('+' x 80);
+
 
     $c->log->info("auth_info:\n" . dump $auth_info);
     $c->log->info("store:\n" . dump $realm->store);
     $c->log->info("provider:\n" . dump $self->providers->{$auth_info->{provider}});
-    $c->log->info($c->session);
+    $c->log->info("session:\n" . dump $c->session);
 
-    # $c->log->info("api_uri:\n" . dump $self->api_uri);
-    # $c->log->info("auth:\n" . dump $self->auth);
-    
-    # $c->res->redirect("http://www.google.com");
-    $c->res->redirect($self->auth->authorize);
-
-
-    $c->detach;
-}
-
-1;
+	$c->log->info('+' x 80);
+	$c->log->info('first round');
+	$c->log->info('+' x 80);

@@ -14,7 +14,7 @@ sub prepare_arguments {
     my ($self, $c) = @_; # $app sometimes written as $c
     my %config = %$self;
     for (qw/catalyst_component_name constructor class/) { delete $config{$_} }
-    $c->log->info(dump $c->config);
+    $c->log->info("Config in Hastu::Model::Google:\n" . dump $c->config);
     return \%config;
 }
 
@@ -25,13 +25,17 @@ sub mangle_arguments {
 
 use Net::OAuth2::AccessToken;
 
-sub request_autho {
+sub request_auth {
     my $self = shift;
     my $token = shift;
     $token = Net::OAuth2::AccessToken->session_thaw($token, profile => $self);
 
     # shift->log->info('foo');
-    return $self->SUPER::request_auth(@_);
+    return $self->SUPER::request_auth($token, @_);
+}
+
+sub krrang {
+    return 'krrang';
 }
 
 1;
